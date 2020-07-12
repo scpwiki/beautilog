@@ -1,0 +1,2 @@
+# beautilog
+IRC text formatter.
