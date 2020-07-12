@@ -1,0 +1,367 @@
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+
+    <style type="text/css">
+td {
+  word-break: normal;
+  width: 20%
+}
+    </style>
+
+    <script type="text/javascript">
+
+      var cnum1 = 0;
+
+      function beautify()
+      {
+
+
+        var redstring = document.getElementById("redbox").value;
+        redstring = redstring.split("\n");
+
+        var colcodeall=document.getElementById('colourcodeall');
+        var remsys=document.getElementById('removesystem');
+
+        bar = document.getElementById("bbox").value;
+
+        if (document.getElementById('chatzilla').checked) {
+          bar = bar.replace(/\|/g, "");
+          bar = bar.split("\n\t");
+          var namecol = 0;
+          var namecol1 = 0;
+          var namecol2 = 0;
+          var namecol3 = 0;
+          var name = "";
+          for (var i = 0; i < bar.length; i++) {
+            name = bar[i].split("\t")[0];
+
+            if(colcodeall.checked){
+              namecol1 = 0;
+              namecol2 = 8;
+              namecol3 = 4;
+              for (var j = 0; j < name.length; j++) {
+                namecol1 = namecol1 + name.charCodeAt(j);
+                namecol2 = namecol2*name.charCodeAt(j) + 2;
+                namecol3 = namecol3 + namecol2 + name.charCodeAt(j);
+
+                namecol1 = namecol1 % 12;
+                namecol2 = namecol2 % 12;
+                namecol3 = namecol3 % 12;
+              }
+            }else{
+              namecol1 = 0;
+              namecol2 = 0;
+              namecol3 = 0;
+            }
+
+            for (var k = 0; k < redstring.length; k++) {
+              if (name == redstring[k]){
+                namecol1 = 15;
+                namecol2 = 0;
+                namecol3 = 0;
+              }
+            }
+
+            bar[i] = bar[i].replace("\t", "## || ");
+            bar[i] = "||~ ##".concat(namecol1.toString(16),namecol2.toString(16),namecol3.toString(16),"|",bar[i]);
+
+
+            if(name=="-->" || name=="<--" || name=="=-="){
+              bar[i] = bar[i].replace("## || ", "## || //");
+              bar[i] = bar[i].replace("-->", " ");
+              bar[i] = bar[i].replace("<--", " ");
+              bar[i] = bar[i].replace("=-=", " ");
+              bar[i] = bar[i].concat("//");
+            }
+
+            bar[i] = bar[i].concat(" ||\n");
+
+            if((name=="-->" || name=="<--" || name=="=-=")&&(remsys.checked)){
+              bar[i] = "";
+            }
+
+          }
+          bar = bar.join("");
+
+          document.getElementById("bbox").value = bar;
+        }
+
+        if (document.getElementById('kaktus').checked) {
+          bar = bar.split("\n");
+          var namecol = 0;
+          var namecol1 = 0;
+          var namecol2 = 0;
+          var namecol3 = 0;
+          var name = "";
+          for (var i = 0; i < bar.length; i++) {
+            name = bar[i].split(" ")[2];
+
+            for (var k = 0; k < redstring.length; k++) {
+              if (name == redstring[k]){
+                bar[i] = bar[i].replace(/> /g, "## || ");
+                bar[i] = bar[i].replace(/</g, " ||~ ##F00|");
+              }else{
+                bar[i] = bar[i].replace(/> /g, " || ");
+                bar[i] = bar[i].replace(/</g, " ||~ ");
+              }
+            }
+
+            bar[i] = "||~ ".concat(bar[i]);
+            bar[i] = bar[i].concat(" ||\n");
+
+            if(bar[i].indexOf(" || ") == -1){
+              bar[i] = "||||".concat(bar[i]);
+            }
+
+          }
+          bar = bar.join("");
+          bar = bar.replace("<", "");
+
+          document.getElementById("bbox").value = bar;
+
+
+        }
+
+        if (document.getElementById('icechat').checked) {
+          document.getElementById("bbox").value = "icechat not currently implemented";
+        }
+
+        if (document.getElementById('mIRC1').checked) {
+          bar = bar.split("\n");
+          var namecol = 0;
+          var namecol1 = 0;
+          var namecol2 = 0;
+          var namecol3 = 0;
+          var name = "";
+          for (var i = 0; i < bar.length; i++) {
+            name = bar[i].split(" ")[1];
+            name = name.replace("<", "");
+            name = name.replace(">", "");
+            name = name.replace("*", "");
+            if(colcodeall.checked){
+              namecol1 = 0;
+              namecol2 = 8;
+              namecol3 = 4;
+              for (var j = 0; j < name.length; j++) {
+                namecol1 = namecol1 + name.charCodeAt(j);
+                namecol2 = namecol2*name.charCodeAt(j) + 2;
+                namecol3 = namecol3 + namecol2 + name.charCodeAt(j);
+
+                namecol1 = namecol1 % 12;
+                namecol2 = namecol2 % 12;
+                namecol3 = namecol3 % 12;
+              }
+            }else{
+              namecol1 = 0;
+              namecol2 = 0;
+              namecol3 = 0;
+            }
+
+            for (var k = 0; k < redstring.length; k++) {
+              if (name == redstring[k]){
+                namecol1 = 15;
+                namecol2 = 0;
+                namecol3 = 0;
+              }
+            }
+
+            if(name==""){
+              bar[i] = "||~ ".concat(bar[i].split(" ")[0], " || ##", namecol1.toString(16), namecol2.toString(16), namecol3.toString(16), "|", name, " ## ||~ ", bar[i].replace(" ", "").replace(" ", "bzkenag:").split("bzkenag:")[1], " ||\n");
+            }else{
+              bar[i] = "||~ ".concat(bar[i].split(" ")[0], " ||~ ##", namecol1.toString(16), namecol2.toString(16), namecol3.toString(16), "|", name, " ## || ", bar[i].replace(" ", "").replace(" ", "bzkenag:").split("bzkenag:")[1], " ||\n");
+            }
+
+            if((name =="")&&(remsys.checked)){
+              bar[i] = "";
+            }
+
+          }
+          bar = bar.join("");
+
+          document.getElementById("bbox").value = bar;
+        }
+
+        if (document.getElementById('mIRC2').checked) {
+          document.getElementById("bbox").value = "not currently implemented";
+        }
+
+        if (document.getElementById('irccloud').checked) {
+          document.getElementById("bbox").value = "IRCCloud not currently implemented";
+        }
+
+        if (document.getElementById('mibbit1').checked) {
+
+          bar = bar.replace(/>: /g, " ## || ");
+          bar = bar.replace(/\n</g, "\n");
+          bar = bar.split("\n");
+          var namecol = 0;
+          var namecol1 = 0;
+          var namecol2 = 0;
+          var namecol3 = 0;
+          var name = "";
+          for (var i = 0; i < bar.length; i++) {
+            name = bar[i].split(" ")[0];
+            if(colcodeall.checked){
+              namecol1 = 0;
+              namecol2 = 8;
+              namecol3 = 4;
+              for (var j = 0; j < name.length; j++) {
+                namecol1 = namecol1 + name.charCodeAt(j);
+                namecol2 = namecol2*name.charCodeAt(j) + 2;
+                namecol3 = namecol3 + namecol2 + name.charCodeAt(j);
+
+                namecol1 = namecol1 % 12;
+                namecol2 = namecol2 % 12;
+                namecol3 = namecol3 % 12;
+              }
+            }else{
+              namecol1 = 0;
+              namecol2 = 0;
+              namecol3 = 0;
+            }
+
+            for (var k = 0; k < redstring.length; k++) {
+              if (name == redstring[k]){
+                namecol1 = 15;
+                namecol2 = 0;
+                namecol3 = 0;
+              }
+            }
+
+            var isBackslashMeLine = bar[i].indexOf(" || ");
+
+            bar[i] = "||~ ##".concat(namecol1.toString(16),namecol2.toString(16),namecol3.toString(16),"|",bar[i]);
+
+            if(isBackslashMeLine==-1){
+              if(name!="+++" && name!="***"){
+                bar[i] = "|| ".concat(bar[i],"##");
+              }
+            }
+
+            if(name=="+++" || name=="***"){
+              bar[i] = bar[i].replace("+++", "ChanServ## || ");
+              bar[i] = bar[i].replace("***", "ChanServ## || ");
+            }
+
+            bar[i] = bar[i].concat(" ||\n");
+
+            if((name=="+++" || name=="***")&&(remsys.checked)){
+              bar[i] = "";
+            }
+
+          }
+          bar = bar.join("");
+          bar = bar.replace("<", "");
+
+          document.getElementById("bbox").value = bar;
+
+
+        }
+
+        if (document.getElementById('mibbit2').checked) {
+          bar = bar.split("\n");
+          var namecol = 0;
+          var namecol1 = 0;
+          var namecol2 = 0;
+          var namecol3 = 0;
+          var name = "";
+          for (var i = 0; i < bar.length; i++) {
+            name = bar[i].split("\t")[1];
+            if(colcodeall.checked){
+              namecol1 = 0;
+              namecol2 = 8;
+              namecol3 = 4;
+              for (var j = 0; j < name.length; j++) {
+                namecol1 = namecol1 + name.charCodeAt(j);
+                namecol2 = namecol2*name.charCodeAt(j) + 2;
+                namecol3 = namecol3 + namecol2 + name.charCodeAt(j);
+
+                namecol1 = namecol1 % 12;
+                namecol2 = namecol2 % 12;
+                namecol3 = namecol3 % 12;
+              }
+            }else{
+              namecol1 = 0;
+              namecol2 = 0;
+              namecol3 = 0;
+            }
+
+            for (var k = 0; k < redstring.length; k++) {
+              if (name == redstring[k]){
+                namecol1 = 15;
+                namecol2 = 0;
+                namecol3 = 0;
+              }
+            }
+
+            var servmessage = bar[i].split("\t")[2].split(" ")[0];
+
+            if(name==""){
+              bar[i] = "||~ ".concat(bar[i].split("\t")[0], " || ##", namecol1.toString(16), namecol2.toString(16), namecol3.toString(16), "|", bar[i].split("\t")[1], " ## ||~ ", bar[i].split("\t")[2], " ||\n");
+            }else{
+              bar[i] = "||~ ".concat(bar[i].split("\t")[0], " ||~ ##", namecol1.toString(16), namecol2.toString(16), namecol3.toString(16), "|", bar[i].split("\t")[1], " ## || ", bar[i].split("\t")[2], " ||\n");
+            }
+
+            if((servmessage =="+++" || servmessage =="***")&&(remsys.checked)){
+              bar[i] = "";
+            }
+
+          }
+          bar = bar.join("");
+
+          document.getElementById("bbox").value = bar;
+        }
+
+      }
+
+    </script>
+
+  </head>
+  <body>
+
+
+    <FONT FACE="Verdana" size=2>
+
+      <FORM>
+        <p>
+        <b>Log To Be Beautified:</b>
+
+        <textarea rows="16" style="width:95%;" id="bbox" wrap="hard"></textarea>
+        <br>
+        <b>Names To Be Colour Coded In BRIGHT RED (i.e. FILTHY CRIMINALS) (new line per name):<br> (don't include the <> characters around the name, but DO include any % or @ symbols used as name prefixes by your client in logs to tag ops, hops, etc)</b><br>
+        <textarea rows="4" style="width:95%;" id="redbox" wrap="hard"></textarea><br>
+        <b>Select Source Client:</b><br>
+        <input type="radio" name="clientname" id="chatzilla" value="chatzilla" checked>Chatzilla (best client)<br>
+        <input type="radio" name="clientname" id="kaktus" value="kaktus">Kaktus' Fancy Pants Personal Beautilog Setting<br>
+        <input type="radio" name="clientname" id="icechat" value="icechat">IceChat (oldish client) TODO<br>
+        <input type="radio" name="clientname" id="mIRC1" value="mIRC1">mIRC (timestamps)<br>
+        <input type="radio" name="clientname" id="mIRC2" value="mIRC2">mIRC (no timestamps) TODO<br>
+        <input type="radio" name="clientname" id="irccloud" value="irccloud">IRCCloud ("modern" client) TODO<br>
+        <input type="radio" name="clientname" id="mibbit1" value="mibbit1">Mibbit Setting 1 (no timestamps and names surrounded by <>)<br>
+        <input type="radio" name="clientname" id="mibbit2" value="mibbit2">Mibbit Setting 2 (timestamps and no <> around names)<br>
+        <input type="checkbox" id="timestamps"> Log has Timestamps TODO<br>
+        <br>
+        <input type="checkbox" id="colourcodeall"> Colour-Code All Users <br>
+        <input type="checkbox" id="removesystem"> Remove System Messages (Joins, Leaves, Channel Sets, Name Changes) (Also removes /me commands in mIRC setting)<br>
+
+        </p>
+        </B>
+
+
+        <P>
+        <center>
+          <INPUT TYPE = "button" VALUE="MAKE ME BEAUTIFUL!" onClick = "beautify()"></TD>
+        </center>
+
+
+      </FORM>
+      </font>
+      <p>
+      <p>
+
+    </FONT>
+  </body>
+</html>
